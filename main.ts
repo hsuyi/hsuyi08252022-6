@@ -40,9 +40,13 @@ basic.forever(function () {
         pins.digitalWritePin(DigitalPin.P1, 0)
         basic.showString("ST")
         basic.pause(100)
-    }
-    if (pins.digitalReadPin(DigitalPin.P2) == 0) {
-        basic.pause(1000)
-        turn = 3
+        if (pins.digitalReadPin(DigitalPin.P2) == 0) {
+            basic.pause(1000)
+            turn = 3
+        }
+        if (pins.digitalReadPin(DigitalPin.P8) == 0) {
+            basic.pause(1000)
+            turn = 3
+        }
     }
 })
