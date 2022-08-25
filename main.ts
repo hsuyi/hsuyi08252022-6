@@ -1,39 +1,38 @@
-basic.showString("L")
-basic.pause(1000)
+radio.onReceivedNumber(function (receivedNumber) {
+    if (receivedNumber == 1) {
+        turn = 1
+        basic.showNumber(receivedNumber)
+    }
+    if (receivedNumber == 0) {
+        turn = 0
+        basic.showNumber(receivedNumber)
+    }
+    if (receivedNumber == 3) {
+        turn = 3
+        basic.showNumber(receivedNumber)
+    }
+})
+let turn = 0
+radio.setGroup(9)
+radio.setTransmitPower(7)
+turn = 3
 pins.digitalWritePin(DigitalPin.P0, 0)
-pins.digitalWritePin(DigitalPin.P0, 0)
-pins.digitalWritePin(DigitalPin.P2, 1)
-pins.digitalWritePin(DigitalPin.P3, 1)
-basic.pause(1000)
-basic.showLeds(`
-    . . # . .
-    . # . # .
-    # . # . #
-    . # . # .
-    . . # . .
-    `)
+pins.digitalWritePin(DigitalPin.P1, 0)
 basic.forever(function () {
-    if (pins.digitalReadPin(DigitalPin.P2) == 0 || pins.digitalReadPin(DigitalPin.P3) == 0) {
+    if (turn == 1) {
+        pins.digitalWritePin(DigitalPin.P0, 1)
+        pins.digitalWritePin(DigitalPin.P1, 0)
+    }
+    if (turn == 0) {
+        pins.digitalWritePin(DigitalPin.P0, 0)
+        pins.digitalWritePin(DigitalPin.P1, 1)
+    }
+    if (turn == 3 || pins.digitalReadPin(DigitalPin.P2) == 0) {
         pins.digitalWritePin(DigitalPin.P0, 0)
         pins.digitalWritePin(DigitalPin.P1, 0)
+    }
+    if (pins.digitalReadPin(DigitalPin.P2) == 0) {
         basic.pause(1000)
-        basic.showString("ST")
-        basic.pause(1000)
-        basic.showIcon(IconNames.Happy)
-    } else {
-        if (input.buttonIsPressed(Button.A)) {
-            pins.digitalWritePin(DigitalPin.P0, 1)
-            pins.digitalWritePin(DigitalPin.P1, 0)
-            basic.showString("RC")
-            basic.pause(1000)
-            basic.showIcon(IconNames.Scissors)
-        }
-        if (input.buttonIsPressed(Button.B)) {
-            pins.digitalWritePin(DigitalPin.P0, 0)
-            pins.digitalWritePin(DigitalPin.P1, 1)
-            basic.showString("LC")
-            basic.pause(1000)
-            basic.showIcon(IconNames.Duck)
-        }
+        turn = 3
     }
 })
